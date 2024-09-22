@@ -1,0 +1,3 @@
+D:/Projects/Tank_Battle_Game/Tank_Battle/cmake-build-debug/CMakeFiles/Tank_Battle.dir
+D:/Projects/Tank_Battle_Game/Tank_Battle/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Projects/Tank_Battle_Game/Tank_Battle/cmake-build-debug/CMakeFiles/rebuild_cache.dir
