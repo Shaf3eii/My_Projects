@@ -165,7 +165,7 @@ int main() {
         if (kbhit()) {
             char c = getch();
             switch (c) {
-                case 27: // مفتاح "Esc"
+                case 27: 
                     exit(0);
                     break;
                 case KEY_UP:
