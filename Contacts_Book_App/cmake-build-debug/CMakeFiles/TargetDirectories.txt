@@ -1,0 +1,3 @@
+D:/FCI/DS/Projects/Contacts_Book_App/cmake-build-debug/CMakeFiles/Contacts_Book_App.dir
+D:/FCI/DS/Projects/Contacts_Book_App/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/FCI/DS/Projects/Contacts_Book_App/cmake-build-debug/CMakeFiles/rebuild_cache.dir
