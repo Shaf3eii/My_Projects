@@ -19,7 +19,7 @@ void loadFile(Contacts &contacts);
 void Exit();
 
 int main() {
-    system("color 0B");
+    system("color 0A");
     Welcome();
     MainMenu();
     Contacts contacts;
@@ -69,7 +69,7 @@ int main() {
                 flag = false;
                 break;
             default:
-                std::cout << "Enter a valid choice from 1 to 9 ..\n";
+                std::cout << "Enter a valid choice from 1 to 13 ..\n";
         }
     } while (flag);
     return 0;
@@ -101,67 +101,99 @@ void MainMenu() {
 }
 
 Person GetInformation() {
-    std::cout << "Enter the contact information: ";
-    std::cout << "\nEnter the first name: ";
-    std::string fname;
+    std::cout << "Enter the contact information:\n";
+
+    // First and last name
+    std::string fname, lname, classification;
+    std::cout << "Enter the first name: ";
     std::cin.ignore();
     std::getline(std::cin, fname);
     std::cout << "Enter the last name: ";
-    std::string lname;
     std::getline(std::cin, lname);
+
+    // Classification
     std::cout << "Enter Classification (Family, Friend, Work, Other): ";
-    std::string classification;
     std::getline(std::cin, classification);
-    std::cout << "How many phone numbers: ";
+
+    // Phone numbers
     int n;
+    std::cout << "How many phone numbers: ";
     std::cin >> n;
     std::cin.ignore();
     Vector<std::string> phones;
-    for(int i = 0; i < n; ++i) {
-        std::cout << "[" << i + 1 << "] Enter phone number: ";
+    auto ValidNum = [](std::string &num)->bool {
+        if (num.find_first_not_of("0123456789") == std::string::npos)
+            return true;
+        return false;
+    };
+    for (int i = 0; i < n; ++i) {
         std::string phone;
+        std::cout << "[" << i + 1 << "] Enter phone number: ";
         std::getline(std::cin, phone);
+
+        // Validate phone number
+        while (!ValidNum(phone)) {
+            std::cout << "Invalid number, please re-enter [" << i + 1 << "]: ";
+            std::getline(std::cin, phone);
+        }
+
         phones.PushBack(phone);
     }
-    std::cout << "How many emails: ";
+
+    // Emails
     int e;
+    std::cout << "How many emails: ";
     std::cin >> e;
     std::cin.ignore();
     Vector<std::string> emails;
-    for(int i = 0; i < e; ++i) {
-        std::cout << "[" << i + 1 << "] Enter email: ";
+    auto ValidEmail = [](std::string &email)->bool {
+        if (email.find('@') != std::string::npos && email.find('.') != std::string::npos)
+            return true;
+        return false;
+    };
+    for (int i = 0; i < e; ++i) {
         std::string email;
+        std::cout << "[" << i + 1 << "] Enter email: ";
         std::getline(std::cin, email);
+
+        // Validate email
+        while (!ValidEmail(email)) {
+            std::cout << "Invalid email, please re-enter [" << i + 1 << "]: ";
+            std::getline(std::cin, email);
+        }
+
         emails.PushBack(email);
     }
-    char isFavString;
-    std::cout << "Favorite contact? [1]Yes [2]No : ";
-    std::cin >> isFavString;
-    bool isFav = (isFavString == '1');
+
+    // Favorite status
+    std::string isFavChoice;
+    bool isFav;
+    std::cout << "Favorite contact? [1] Yes [2] No: ";
+    std::cin >> isFavChoice;
+    isFav = (isFavChoice == "1" || isFavChoice == "Yes" || isFavChoice == "yes");
     std::cin.ignore();
-    std::cout << "Enter the address: \n";
-    std::string streetNum;
-    std::cout << "Enter the streetNumber: ";
+
+    // Address details
+    std::string streetNum, street, country, city;
+    std::cout << "Enter the address:\n";
+    std::cout << "Enter the street number: ";
     std::getline(std::cin, streetNum);
-    std::cout << "Enter the streetName: ";
-    std::string street;
+    std::cout << "Enter the street name: ";
     std::getline(std::cin, street);
     std::cout << "Enter the country: ";
-    std::string country;
     std::getline(std::cin, country);
     std::cout << "Enter the city: ";
-    std::string city;
     std::getline(std::cin, city);
-    system("pause");
+
+    // Create Address and Person objects
     Address address(streetNum, street, city, country);
     Person P(fname, lname, classification, phones, emails, address, isFav);
+
     return P;
 }
 
-
 void addNewContact(Contacts &contacts) {
     Person P = GetInformation();
-    std::cout << "nnnnn\n";
     contacts.AddNewContact(P);
     MainMenu();
 }

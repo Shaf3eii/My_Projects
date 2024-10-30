@@ -11,7 +11,7 @@ template<typename T>
 class Vector {
     size_t capacity{};
     size_t size{};
-    T *arr{nullptr};
+    T *arr;
 
     void resize(size_t newCapacity) { // o(n) time - o(n) memory
         // Double the actual array size
@@ -40,10 +40,12 @@ public:
     }
 
     // copy constructor
-//    Vector(const Vector<T> &other) : size(other.size), capacity(other.capacity) { // o(n) time - o(n) memory
-//        arr = new T[capacity];
-//        std::copy(other, other + size, arr);
-//    }
+    Vector(const Vector<T>& other) : size(other.size), capacity(other.capacity) {
+        arr = new T[capacity]{};
+        for (size_t i = 0; i < size; ++i) {
+            arr[i] = other.arr[i];
+        }
+    }
 
     // copy assignment operator
     Vector<T>& operator=(const Vector<T>& other) {
@@ -99,6 +101,14 @@ public:
         return arr[idx];
     }
 
+    const T& getElement(int index) const {
+        if (index < 0 || index >= size)
+            throw std::out_of_range("Index out of range");
+
+//        std::cout << "FROM ==> " << arr[index] << std::endl;
+        return arr[index];
+    }
+
     T front() const { // o(1) time - o(1) memory
         if (!size)
             throw std::out_of_range("Vector is empty");
@@ -146,7 +156,6 @@ public:
     }
 
     void remove(size_t idx) { // O(n) time - o(1) memory
-
         if (idx < 0 || idx >= size) // out of bounds
             throw std::out_of_range("Index out of range");
 
@@ -166,10 +175,12 @@ public:
     }
 
     void clear() { // O(1) time - o(1) memory !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        T *arr2 = new T[1];
         size = 0;
         capacity = 1;
-        delete[]arr;
-        arr = nullptr;
+        std::swap(arr, arr2);
+        delete[]arr2;
+        arr2 = nullptr;
     }
 
     void Resize(size_t newSize) { // O(n) time - o(1) memory
@@ -191,7 +202,7 @@ public:
         return size == 0;
     }
 
-    size_t find(T val) const { // O(n) time - o(1) memory
+    int find(T val) const { // O(n) time - o(1) memory
         for (int i = 0; i < size; ++i) {
             if (arr[i] == val)
                 return i;
@@ -200,8 +211,8 @@ public:
     }
 
     void reverse(int from = 0, int to = 0) { // o(n) time - o(1) memory
-//        if(size == 0)
-//            throw std::runtime_error("The Array is Empty..\n");
+        if(size == 0)
+            throw std::runtime_error("The Array is Empty..\n");
 
         if(!to)
             to = size - 1;

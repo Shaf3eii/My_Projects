@@ -15,7 +15,7 @@ class Address {
     std::string Country;
 public:
     Address() : StreetName(""), StreetNumber(""), Country(""), City("") { };
-    Address(std::string num, std::string& streetname, std::string& city, std::string& country) :
+    Address(std::string &num, std::string& streetname, std::string& city, std::string& country) :
             StreetNumber(num), StreetName(streetname), City(city), Country(country) { }  // o(1) time - o(1) memory
 
     // Copy constructor

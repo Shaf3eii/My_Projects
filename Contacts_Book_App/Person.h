@@ -36,15 +36,14 @@ public:
     Person() : first_name(""), last_name(""), classification(""), phone_number(Vector<std::string>()),
                email_address(Vector<std::string>()), address(), isFavorite(false) {}
 
-    Person( std::string &fname,  std::string& lname,  std::string &classification, Vector<std::string> &phoneNumber, Vector<std::string> &email, Address &address, bool isFav) {
-        first_name = fname;
-        last_name = lname;
-        phone_number = phoneNumber;
-        email_address = email;
-        this->classification = classification;
-        this->address = address;
-        isFavorite = isFav;
-    };
+    Person(const std::string& fname, const std::string& lname, const std::string& cla, const Vector<std::string>& phoneNumber,
+           const Vector<std::string> &email, const Address &address, bool isFav)
+            : first_name(fname), last_name(lname), classification(cla),
+              phone_number(phoneNumber), email_address(email), address(address), isFavorite(isFav) {
+
+//        std::cout << std::endl << classification << std::endl;
+    }
+
 
     Person &operator=(const Person &other) {
         if (this != &other) {
@@ -77,7 +76,7 @@ public:
         return other < *this;
     }
 
-    void setFirst_Name(std::string fname) { // o(1) time - o(1) memory
+    void setFirst_Name(std::string &fname) { // o(1) time - o(1) memory
         this->first_name = fname;
     }
 
@@ -85,7 +84,7 @@ public:
         return first_name;
     }
 
-    void setLast_Name(std::string lname) { // o(1) time - o(1) memory
+    void setLast_Name(std::string &lname) { // o(1) time - o(1) memory
         this->last_name = lname;
     }
 
@@ -130,11 +129,12 @@ public:
         return address;
     }
 
-    void setClassification(std::string cl) {
+    void setClassification(std::string &cl) {
         classification = cl;
     }
 
     std::string getClassification() const {
+//        std::cout << "getter ==> " << classification << std::endl;
         return classification;
     }
 
@@ -150,17 +150,19 @@ public:
         return first_name + ' ' + last_name;
     }
 
-//void get_summary() const {
-//    std::cout << first_name << " " << last_name << " (" << phone_number. << ")\n";
-//}
+    ~Person() {
+        phone_number.clear();
+        email_address.clear();
+    }
 
-//void get_full_information() const { // O(1) time - O(1) memory
-//    std::cout << std::setw(20) << std::left << "\nFirst Name: " << first_name << '\n';
-//    std::cout << std::setw(20) << std::left << "Last Name: " << last_name << '\n';
-//    std::cout << std::setw(20) << std::left << "Phone Number: " << phone_number << '\n';
-//    std::cout << std::setw(20) << std::left << "Email: " << email_address << '\n';
-//    address.get_full_address();
-//}
+    void printPerson() const {
+        std::cout << std::left << std::setw(18) << "First Name: " << getFirst_Name() << std::endl;
+        std::cout << std::left << std::setw(18) << "Last Name: " << getLast_Name() << std::endl;
+        std::cout << std::left << std::setw(18) << "Class: " << getClassification() << std::endl;
+        std::cout << std::left << std::setw(18) << "Numbers: " << getPhone_Number().getElements() << std::endl;
+        std::cout << std::left << std::setw(18) << "Emails: " << getEmail_Address().getElements() << std::endl;
+        std::cout << std::left << std::setw(18) << "Address: " << getAddress() << std::endl;
+    }
 
     friend std::ostream &operator<<(std::ostream &os, const Person &person);
 };

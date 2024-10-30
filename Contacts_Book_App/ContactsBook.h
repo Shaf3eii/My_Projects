@@ -46,18 +46,11 @@ public:
         std::cout << "This contact removed successfully..\n\n";
     }
 
-    void listContacts() const {
-        for (int i = 0; i < contacts.getSize(); ++i) { // o(n) time - o(1) memory
-            std::cout << i + 1 << "- ";
-            std::cout << contacts[i] << '\n';
-        }
-    }
-
     void searchContactbyfirstName(const std::string &name) const { // o(n) time - o(1) memory
         bool flag = false;
         for (int i = 0; i < contacts.getSize(); ++i) {
             if (contacts[i].getFirst_Name() == name) {
-                std::cout << contacts[i] << '\n';
+                contacts[i].printPerson();
                 flag = true;
             }
         }
@@ -69,7 +62,7 @@ public:
         bool flag = false;
         for (int i = 0; i < contacts.getSize(); ++i) {
             if (contacts[i].getLast_Name() == name) {
-                std::cout << contacts[i] << '\n';
+                contacts[i].printPerson();
                 flag = true;
             }
         }
@@ -81,7 +74,7 @@ public:
         bool flag = false;
         for (int i = 0; i < contacts.getSize(); ++i) {
             if (contacts[i].getFirst_Name() == fname && contacts[i].getLast_Name() == lname) {
-                std::cout << contacts[i] << '\n';
+                contacts[i].printPerson();
                 flag = true;
             }
         }
@@ -92,14 +85,14 @@ public:
     void searchContactbyPhoneNumber(const Vector<std::string> &phone) const { // o(n) time - o(1) memory
         for (int i = 0; i < contacts.getSize(); ++i) {
             if (contacts[i].getPhone_Number() == phone)
-                return std::cout << contacts[i] << '\n', void();
+                return contacts[i].printPerson(), void();
         }
     }
 
     void searchContactbyclass(const std::string &classif) const { // o(n) time - o(1) memory
         for (int i = 0; i < contacts.getSize(); ++i) {
             if (contacts[i].getClassification() == classif)
-                return std::cout << contacts[i] << '\n', void();
+                return contacts[i].printPerson(), void();
         }
     }
 
@@ -137,7 +130,7 @@ public:
         contacts.sort();
     }
 
-    void reverseContacts() {
+    void reverseContacts() { // o(n) time - o(1) memory
         contacts.reverse();
     }
 
@@ -151,19 +144,36 @@ public:
 
     void saveToFile() {
         std::ofstream outfile("contacts.txt");
-        if (!outfile)
+        if (!outfile) {
             return std::cerr << "Error opening file for writing..\n", void();
-        Address address;
+        }
+
         for (int i = 0; i < contacts.getSize(); ++i) {
-            address = contacts[i].getAddress();
-            outfile << contacts[i].getFirst_Name() << ","
-                    << contacts[i].getLast_Name() << ","
-                    << contacts[i].getPhone_Number().getElements() << ","
-                    << contacts[i].getEmail_Address().getElements() << ","
-                    << address.getStreetnum() << ","
+            const auto &contact = contacts[i];
+            const Address &address = contact.getAddress();
+
+            // Save each attribute separated by commas, with classification and isFav flag at the end
+            outfile << contact.getFirst_Name() << ","
+                    << contact.getLast_Name() << ","
+                    << contact.getClassification() << ","
+                    << contact.getPhone_Number().getSize() << ",";  // write phone count first
+
+            for (int j = 0; j < contact.getPhone_Number().getSize(); ++j) {
+                if (j > 0) outfile << ","; // separate multiple phones
+                outfile << contact.getPhone_Number().getElement(j);
+            }
+            outfile << "," << contact.getEmail_Address().getSize() << ",";  // write email count
+
+            for (int j = 0; j < contact.getEmail_Address().getSize(); ++j) {
+                if (j > 0) outfile << ",";
+                outfile << contact.getEmail_Address().getElement(j);
+            }
+
+            outfile << "," << address.getStreetnum() << ","
                     << address.getStreetName() << ","
+                    << address.getCity() << ","
                     << address.getCountry() << ","
-                    << address.getCity() << "\n";
+                    << (contact.getFav() ? "1" : "0") << "\n";
         }
         outfile.close();
         std::cout << "Contacts saved to file..\n";
@@ -171,12 +181,14 @@ public:
 
     void loadFromFile() {
         std::ifstream infile("contacts.txt");
-        if (!infile)
+        if (!infile) {
             return std::cerr << "Error opening file for reading..\n", void();
+        }
 
         std::string line;
         while (getline(infile, line)) {
             std::stringstream ss(line);
+
             std::string firstName, lastName, classification, phoneStr, emailStr;
             std::string num, street, city, country, isFavStr;
 
@@ -186,25 +198,21 @@ public:
 
             int numPhones;
             ss >> numPhones;
-            ss.ignore(1, ',');
+            ss.ignore(1, ',');  // skip comma
             Vector<std::string> phones;
-            getline(ss, phoneStr, ',');
-            std::stringstream phoneStream(phoneStr);
             for (int i = 0; i < numPhones; ++i) {
                 std::string phone;
-                getline(phoneStream, phone, ',');
+                getline(ss, phone, ',');
                 phones.PushBack(phone);
             }
 
             int numEmails;
             ss >> numEmails;
-            ss.ignore(1, ',');
+            ss.ignore(1, ',');  // skip comma
             Vector<std::string> emails;
-            getline(ss, emailStr, ',');
-            std::stringstream emailStream(emailStr);
             for (int i = 0; i < numEmails; ++i) {
                 std::string email;
-                getline(emailStream, email, ',');
+                getline(ss, email, ',');
                 emails.PushBack(email);
             }
 
@@ -222,6 +230,71 @@ public:
         infile.close();
         std::cout << contacts.getSize() << " Contacts loaded successfully!\n";
     }
+
+
+    ~Contacts() {
+        contacts.clear();
+    }
+
+    void listContacts() const {
+        const int firstNameWidth = 18;
+        const int lastNameWidth = 18;
+        const int cityWidth = 18;
+        const int countryWidth = 18;
+        const int streetWidth = 18;
+        const int homeNumberWidth = 18;
+        const int phoneWidth = 18;
+        const int classificationWidth = 18;
+
+        const int totalWidth = firstNameWidth + lastNameWidth + cityWidth + countryWidth +
+                               streetWidth + homeNumberWidth + phoneWidth + classificationWidth + 13;
+
+        // Print header
+        std::cout << "♖" << std::string(totalWidth, '-') << "♖\n";
+        std::cout << "|" << std::left << std::setw(firstNameWidth) << "First Name" << "| "
+                  << std::setw(lastNameWidth) << "Last Name" << "| "
+                  << std::setw(cityWidth) << "City" << "| "
+                  << std::setw(countryWidth) << "Country" << "| "
+                  << std::setw(streetWidth) << "Street Number" << "| "
+                  << std::setw(homeNumberWidth) << "Street Name" << "| "
+                  << std::setw(phoneWidth) << "Phone Number" << "| "
+                  << std::setw(classificationWidth) << "Classification" << "|\n";
+        std::cout << "↕" << std::string(totalWidth, '-') << "↕\n";
+
+
+        int n = contacts.getSize();
+        for (int i = 0; i < n; i++) {
+            Person p = contacts.getElement(i);
+            Address a = p.getAddress();
+
+            std::string phoneOutput;
+            if (p.getPhone_Number().getSize() > 0) {
+                phoneOutput = p.getPhone_Number().getElement(0);  // First phone number
+            }
+
+//            std::cout << "get ==> " << p << std::endl;
+
+            std::cout << "|" << std::left << std::setw(firstNameWidth) << p.getFirst_Name() << "| "
+                      << std::setw(lastNameWidth) << p.getLast_Name() << "| "
+                      << std::setw(cityWidth) << a.getCity() << "| "
+                      << std::setw(countryWidth) << a.getCountry() << "| "
+                      << std::setw(streetWidth) << a.getStreetnum() << "| "
+                      << std::setw(homeNumberWidth) << a.getStreetName() << "| "
+                      << std::setw(phoneWidth) << phoneOutput << "| "
+                      << std::setw(classificationWidth) << p.getClassification() << "|\n";
+
+
+            // Table row divider
+            if (i == n - 1) {
+                std::cout << "♖" << std::string(totalWidth, '-') << "♖\n";
+            } else {
+                std::cout << "↕" << std::string(totalWidth, '-') << "↕\n";
+            }
+
+        }
+    }
+
+
 };
 
 

@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/FCI/DS/Projects/Contacts_Book_App/cmake-build-debug",
-		"source" : "D:/FCI/DS/Projects/Contacts_Book_App"
+		"build" : "D:/My_Github/My_Projects/Contacts_Book_App/cmake-build-debug",
+		"source" : "D:/My_Github/My_Projects/Contacts_Book_App"
 	},
 	"version" : 
 	{
