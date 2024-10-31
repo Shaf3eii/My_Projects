@@ -1,2 +1,2 @@
 # My_Projects
-Projects using OOP C++
+Projects using C++
