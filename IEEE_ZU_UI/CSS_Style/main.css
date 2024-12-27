@@ -1,0 +1,370 @@
+:root {
+  --main-color: #0a1ed1;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.header {
+  position: relative;
+  background-image: url("landing.jpg");
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  padding: 20px;
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+nav {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 35px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.2em 2em;
+  float: right;
+  margin-top: 15px;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0;
+  padding: 0.2em 0.7em;
+}
+
+nav a {
+  width: 100%;
+  height: 100%;
+  color: white;
+  text-decoration: none;
+  font-size: 1.15em;
+  transition: 0.25s ease-in-out;
+}
+
+nav a:hover {
+  color: var(--main-color);
+}
+
+nav ul li a.active {
+  color: var(--main-color);
+}
+
+.logo {
+  position: absolute;
+  color: var(--main-color);
+  font-weight: bold;
+  font-size: 35px;
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0;
+  margin: 10px 10px;
+}
+
+.header .Hello {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.IEEE-ZS {
+  color: var(--main-color);
+  font-size: 45px;
+  font-weight: 700;
+  max-width: 300px;
+  background: linear-gradient(to right, rgb(75, 24, 214), rgba(10, 30, 209));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.paragraph {
+  color: white;
+  font-size: 18px;
+  max-width: 400px;
+  margin-top: 15px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.content h3 {
+  margin-bottom: 10px;
+}
+
+.content p {
+  max-width: 400px;
+}
+
+.frameworks {
+  flex-direction: column;
+  align-items: center;
+  display: inline-block;
+}
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  display: inline-block;
+  width: 250px;
+  padding: 20px;
+}
+
+.frameworks .bord {
+  width: 50px;
+  height: 50px;
+  background-color: #efefef;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--main-color);
+  text-align: center;
+  justify-content: center;
+  font-size: 30px;
+  padding-top: 5px;
+}
+
+.join .account {
+  display: inline-block;
+  width: 250px;
+  height: 330px;
+  margin-left: 50px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
+  padding: auto;
+}
+
+.join .account .type {
+  color: black;
+  font-weight: bold;
+}
+
+.join .account ul {
+  list-style: none;
+}
+
+.join .account ul li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.fa-check {
+  margin-right: 10px;
+  color: var(--main-color);
+}
+
+.join .account .price {
+  color: var(--main-color);
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.join .account .start {
+  align-self: center;
+  border: 2px solid var(--main-color);
+  border-radius: 25px;
+  padding: 10px;
+  margin: 10px;
+  width: 125px;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.start:hover {
+  color: white;
+  background-color: var(--main-color);
+  transition: 0.3s;
+}
+
+.Skills {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Skills .skill {
+  margin-top: 40px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.skill-range {
+  width: 100%;
+}
+
+.range {
+  margin-top: 20px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  background-color: #efefef;
+  border-radius: 25px;
+  padding: 3px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.progress-bar {
+  width: 0;
+  height: 20px;
+  background-color: var(--main-color);
+  border-radius: 25px;
+  transition: width 0.4s ease;
+  position: relative;
+}
+
+.progress-bar::after {
+  content: attr(data-progress);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 14px;
+}
+
+.range label {
+  display: flex;
+  align-items: flex-start;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.marker {
+  position: absolute;
+  top: -30px;
+  right: -12px;
+  background-color: var(--main-color);
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 12px;
+  width: 10px;
+  height: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.marker::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--main-color) transparent transparent transparent;
+}
+
+footer {
+  background-color: #efefef;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, auto); 
+  align-items: center;
+  gap: 20px; 
+}
+
+.foot-container {
+  text-align: center;
+  width: 100%;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(auto-fill, minmax(calc(100 / 3), 1fr));
+}
+
+footer div {
+  display: inline-block;
+}
+
+footer .left-links {
+  grid-area: le;
+  align-items: flex-start;
+  grid-column: 1 / 2;
+}
+
+footer .middle-links {
+  grid-area: mid;
+  align-items: center;
+  grid-column: 2 / 3;
+}
+
+footer .right-links {
+  grid-area: ri;
+  margin-bottom: 0;
+  margin-top: 70px;
+  grid-column: 3 / 4;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer ul li {
+  margin: 10px 0;
+}
+
+footer ul li a {
+  text-decoration: none;
+  color: var(--main-color);
+}
+
+footer ul li a:hover {
+  color: var(--main-color);
+}
+
+footer a {
+  margin: 0 10px;
+}
+
+footer a i {
+  font-size: 35px;
+  color: var(--main-color);
+}
