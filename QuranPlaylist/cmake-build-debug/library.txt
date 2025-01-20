@@ -1,0 +1,9 @@
+haza3,3
+1,alfatiha,makya,C:\\Users\\Mahmoud Elshafei\\OneDrive\\Desktop\\haza3(elfatiha).wav,43
+2,alnasr,madina,C:\\Users\\Mahmoud Elshafei\\OneDrive\\Desktop\\haza3(elnasr).wav,25
+3,alkaferon,madina,C:\\Users\\Mahmoud Elshafei\\OneDrive\\Desktop\\haza3(elkaferon).wav,35
+elmenshawy,1
+1,alfatiha,makya,C:\\Users\\Mahmoud Elshafei\\OneDrive\\Desktop\\elmenshay(elfatiha).wav,130
+abdelbaset,2
+1,alduha,makya,C:\\Users\\Mahmoud Elshafei\\OneDrive\\Desktop\\abdelbaset(alduha).wav,140
+3,altariq,makya,C:\\Users\\Mahmoud Elshafei\\OneDrive\\Desktop\\abdelbaset(altariq).wav,188
